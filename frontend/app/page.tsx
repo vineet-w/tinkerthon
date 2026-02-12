@@ -9,6 +9,34 @@ function MatrixRain() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
+  const style = document.createElement("style");
+  style.textContent = `
+    @font-face {
+      font-family: "Glitch";
+      src: url("/fonts/Hacked.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { 
+        box-shadow: 0 0 20px #00ff41,
+                   0 0 40px #00ff41;
+      }
+      50% { 
+        box-shadow: 0 0 10px #00ff41,
+                   0 0 30px #00ff41;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  return () => {
+    document.head.removeChild(style);
+  };
+}, []);
+
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -221,11 +249,18 @@ export default function TeaserPage() {
                   x: showGlitch ? [-2, 2, -1, 1, 0] : 0,
                 }}
                 transition={{ duration: 0.3 }}
-                className="text-5xl md:text-8xl font-bold tracking-tighter mb-4"
-              >
-                <span className="text-white">T</span>
-                <span className="text-green-400">INKERTHON</span>
-                <span className="text-white">26</span>
+                className="text-5xl md:text-8xl tracking-tighter mb-4"
+                style={{ 
+                fontFamily: "Glitch, sans-serif",
+                fontStyle: "normal",
+                letterSpacing: "15px",
+                 
+              }}
+                
+                >
+                
+                <span className="text-green-400">TINKERTHON</span>
+                <span className="text-white">'26</span>
               </motion.h1>
               
               {showGlitch && (
