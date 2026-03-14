@@ -24,17 +24,56 @@ interface AboutSectionProps {
 }
 
 export default function AboutSection({ onReturn }: AboutSectionProps) {
-  const [visibleLines, setVisibleLines] = useState(0)
+  const [typedLines, setTypedLines] = useState<string[]>(() =>
+    TERMINAL_LINES.map(() => "")
+  )
+  const [activeLine, setActiveLine] = useState(0)
+  const [typingComplete, setTypingComplete] = useState(false)
 
   useEffect(() => {
-    setVisibleLines(0)
-    let i = 0
-    const interval = setInterval(() => {
-      i++
-      setVisibleLines(i)
-      if (i >= TERMINAL_LINES.length) clearInterval(interval)
-    }, 150)
-    return () => clearInterval(interval)
+    setTypedLines(TERMINAL_LINES.map(() => ""))
+    setActiveLine(0)
+    setTypingComplete(false)
+
+    let lineIndex = 0
+    let charIndex = 0
+    let timeoutId: ReturnType<typeof setTimeout>
+
+    const typeNext = () => {
+      if (lineIndex >= TERMINAL_LINES.length) {
+        setTypingComplete(true)
+        return
+      }
+
+      setActiveLine(lineIndex)
+      const line = TERMINAL_LINES[lineIndex]
+
+      if (line === "") {
+        lineIndex++
+        charIndex = 0
+        timeoutId = setTimeout(typeNext, 80)
+        return
+      }
+
+      if (charIndex <= line.length) {
+        const partialLine = line.slice(0, charIndex)
+        setTypedLines((prev) => {
+          const next = [...prev]
+          next[lineIndex] = partialLine
+          return next
+        })
+        charIndex++
+        timeoutId = setTimeout(typeNext, 26)
+        return
+      }
+
+      lineIndex++
+      charIndex = 0
+      timeoutId = setTimeout(typeNext, 140)
+    }
+
+    timeoutId = setTimeout(typeNext, 220)
+    return () => clearTimeout(timeoutId)
   }, [])
 
   return (
@@ -124,34 +163,40 @@ export default function AboutSection({ onReturn }: AboutSectionProps) {
             {TERMINAL_LINES.map((line, i) => (
               <div
                 key={i}
-                style={{
-                  opacity: i < visibleLines ? 1 : 0,
-                  transform: i < visibleLines ? "translateY(0)" : "translateY(4px)",
-                  transition: "opacity 0.3s, transform 0.3s",
-                }}
               >
                 {i === 0 ? (
-                  <span style={{ color: "#9fe6b8", fontWeight: "bold" }}>{line}</span>
+                  <span style={{ color: "#9fe6b8", fontWeight: "bold" }}>
+                    {typedLines[i]}
+                    {(i === activeLine || (typingComplete && i === TERMINAL_LINES.length - 1)) && line !== "" && (
+                      <motion.span
+                        animate={{ opacity: [0, 0.9, 0] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                        className="inline-block ml-1"
+                        style={{ color: "#7dffb2" }}
+                      >
+                        █
+                      </motion.span>
+                    )}
+                  </span>
                 ) : line === "" ? (
                   <br />
                 ) : (
-                  <span style={{ color: "rgba(125,255,178,0.75)" }}>{line}</span>
+                  <span style={{ color: "rgba(125,255,178,0.75)" }}>
+                    {typedLines[i]}
+                    {(i === activeLine || (typingComplete && i === TERMINAL_LINES.length - 1)) && (
+                      <motion.span
+                        animate={{ opacity: [0, 0.9, 0] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                        className="inline-block ml-1"
+                        style={{ color: "#7dffb2" }}
+                      >
+                        █
+                      </motion.span>
+                    )}
+                  </span>
                 )}
               </div>
             ))}
-
-            {/* Blinking cursor */}
-            {visibleLines >= TERMINAL_LINES.length && (
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 0.85, 0] }}
-                transition={{ duration: 1.2, repeat: Infinity }}
-                className="inline-block mt-4"
-                style={{ color: "#7dffb2" }}
-              >
-                █
-              </motion.span>
-            )}
           </div>
         </motion.div>
       </div>

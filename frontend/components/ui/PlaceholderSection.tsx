@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import ReturnPortalButton from "./ReturnPortalButton"
 
@@ -10,6 +11,30 @@ interface PlaceholderSectionProps {
 }
 
 export default function PlaceholderSection({ title, subtitle, onReturn }: PlaceholderSectionProps) {
+  const FEED_TEXT = "AWAITING DATA FEED..."
+  const [visibleFeedChars, setVisibleFeedChars] = useState(0)
+
+  useEffect(() => {
+    setVisibleFeedChars(0)
+    let intervalId: ReturnType<typeof setInterval> | null = null
+    const timeoutId = setTimeout(() => {
+      intervalId = setInterval(() => {
+        setVisibleFeedChars((prev) => {
+          if (prev >= FEED_TEXT.length) {
+            if (intervalId) clearInterval(intervalId)
+            return prev
+          }
+          return prev + 1
+        })
+      }, 45)
+    }, 500)
+
+    return () => {
+      clearTimeout(timeoutId)
+      if (intervalId) clearInterval(intervalId)
+    }
+  }, [])
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -85,7 +110,7 @@ export default function PlaceholderSection({ title, subtitle, onReturn }: Placeh
               <span style={{ color: "#7dffb2" }}>SECTION UNDER CONSTRUCTION</span>
             </div>
             <motion.div
-              animate={{ opacity: [0.3, 0.85, 0.3] }}
+              animate={{ opacity: [0.4, 0.9, 0.4] }}
               transition={{ duration: 2, repeat: Infinity }}
               className="mt-4 font-mono text-sm"
               style={{
@@ -93,7 +118,15 @@ export default function PlaceholderSection({ title, subtitle, onReturn }: Placeh
                 color: "rgba(125,255,178,0.55)",
               }}
             >
-              AWAITING DATA FEED...█
+              {FEED_TEXT.slice(0, visibleFeedChars)}
+              {visibleFeedChars > 0 && (
+                <motion.span
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                >
+                  █
+                </motion.span>
+              )}
             </motion.div>
           </div>
         </motion.div>

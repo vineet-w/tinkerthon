@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import ReturnPortalButton from "./ReturnPortalButton"
 
@@ -20,6 +21,55 @@ const EVENTS: TimelineEvent[] = [
 
 interface TimelineSectionProps {
   onReturn: () => void
+}
+
+interface TypewriterPayloadProps {
+  text: string
+  startDelayMs?: number
+  charIntervalMs?: number
+}
+
+function TypewriterPayload({
+  text,
+  startDelayMs = 0,
+  charIntervalMs = 30,
+}: TypewriterPayloadProps) {
+  const [visibleChars, setVisibleChars] = useState(0)
+
+  useEffect(() => {
+    setVisibleChars(0)
+
+    let intervalId: ReturnType<typeof setInterval> | null = null
+    const timeoutId = setTimeout(() => {
+      intervalId = setInterval(() => {
+        setVisibleChars((prev) => {
+          if (prev >= text.length) {
+            if (intervalId) clearInterval(intervalId)
+            return prev
+          }
+          return prev + 1
+        })
+      }, charIntervalMs)
+    }, startDelayMs)
+
+    return () => {
+      clearTimeout(timeoutId)
+      if (intervalId) clearInterval(intervalId)
+    }
+  }, [text, startDelayMs, charIntervalMs])
+
+  return (
+    <>
+      {text.slice(0, visibleChars)}
+      {visibleChars > 0 && (
+        <motion.span
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 1, repeat: Infinity }}
+          className="inline-block w-2 sm:w-3 h-4 sm:h-5 bg-green-400 ml-2 align-middle"
+        />
+      )}
+    </>
+  )
 }
 
 export default function TimelineSection({ onReturn }: TimelineSectionProps) {
@@ -109,11 +159,10 @@ export default function TimelineSection({ onReturn }: TimelineSectionProps) {
                 {/* Payload Text */}
                 <h3 className="relative z-10 font-mono font-bold text-sm sm:text-xl text-green-400 tracking-widest leading-relaxed drop-shadow-[0_0_8px_rgba(0,230,118,0.4)]">
                   <span className="text-white/60 mr-2">{">"}</span>
-                  {event.title}
-                  <motion.span
-                    animate={{ opacity: [0, 1, 0] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                    className="inline-block w-2 sm:w-3 h-4 sm:h-5 bg-green-400 ml-2 align-middle"
+                  <TypewriterPayload
+                    text={event.title}
+                    startDelayMs={500 + index * 200}
+                    charIntervalMs={24}
                   />
                 </h3>
                 
