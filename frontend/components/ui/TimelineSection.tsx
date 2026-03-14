@@ -125,7 +125,7 @@ export default function TimelineSection({ onReturn }: TimelineSectionProps) {
         </div>
       </div>
 
-      <ReturnPortalButton onReturn={onReturn} />
+      <ReturnPortalButton onReturn={onReturn} fixed={false} />
     </motion.section>
   )
 }

@@ -197,7 +197,13 @@ export default function TeaserPage() {
   }, [activeView, phase]);
 
   return (
-    <div className="bg-black text-green-400 font-mono relative h-screen overflow-hidden">
+    <div
+      className={`bg-black text-green-400 font-mono relative h-screen ${
+        activeView === "timeline"
+          ? "overflow-y-auto overflow-x-hidden"
+          : "overflow-hidden"
+      }`}
+    >
       <MatrixRain />
 
       {/* Flickering screen effect */}
