@@ -55,6 +55,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
+  --matrix-green: #00e676;
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
@@ -118,10 +119,13 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
+    background: #020403;
+    color: #7dffb2;
   }
 }
 
@@ -269,4 +273,35 @@
 
 .matrix-title {
   animation: matrixFlicker 3s infinite, glowPulse 2.5s infinite;
+}
+
+::selection {
+  background: rgba(0, 255, 0, 0.25);
+  color: #00ff9c;
+}
+
+::-moz-selection {
+  background: rgba(0, 255, 0, 0.25);
+  color: #00ff9c;
+}
+
+.portal-door {
+  transition: all 0.3s ease;
+}
+
+.portal-door:hover {
+  box-shadow:
+    0 0 8px rgba(0,230,118,0.4),
+    0 0 20px rgba(0,230,118,0.2),
+    inset 0 0 12px rgba(0,230,118,0.15);
+}
+
+::selection {
+  background: rgba(0, 255, 0, 0.25);
+  color: #00ff9c;
+}
+
+::-moz-selection {
+  background: rgba(0, 255, 0, 0.25);
+  color: #00ff9c;
 }
