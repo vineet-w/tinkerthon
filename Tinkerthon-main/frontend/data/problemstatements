@@ -1,0 +1,12 @@
+[
+  {
+    "id": "91b89ab5-008a-4cff-84a5-5cf6e3baf0dc",
+    "domain": "web-development",
+    "track": "junior",
+    "title": "Build a Real-time Chat Application",
+    "description": "Design and implement a real-time chat application using WebSockets. The application should support multiple rooms, user authentication, and message persistence.",
+    "published": true,
+    "createdAt": "2026-03-15T08:18:23.330Z",
+    "updatedAt": "2026-03-15T08:54:57.396Z"
+  }
+]
