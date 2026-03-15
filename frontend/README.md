@@ -15,7 +15,7 @@ Tinkerthon '26 is not just a hackathon; it's a descent into the system. The land
 ## 🚀 Getting Started
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) (v18.x or later recommended)
+- [Node.js](https://nodejs.org/) (v20.9.x or later recommended)
 - [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
 ### Installation
@@ -45,6 +45,11 @@ Tinkerthon '26 is not just a hackathon; it's a descent into the system. The land
    ```bash
    npm run dev
    ```
+
+To open from another device on the same network, run:
+```bash
+npm run dev -- --hostname 0.0.0.0 --port 3000
+```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the system initializing.
 
