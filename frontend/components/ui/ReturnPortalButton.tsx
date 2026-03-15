@@ -5,9 +5,10 @@ import { motion } from "framer-motion"
 interface ReturnPortalButtonProps {
   onReturn: () => void
   fixed?: boolean
+  accentColor?: string
 }
 
-export default function ReturnPortalButton({ onReturn, fixed = true }: ReturnPortalButtonProps) {
+export default function ReturnPortalButton({ onReturn, fixed = true, accentColor = "#00e676" }: ReturnPortalButtonProps) {
   return (
     <motion.button
       onClick={onReturn}
@@ -24,15 +25,16 @@ export default function ReturnPortalButton({ onReturn, fixed = true }: ReturnPor
         group
       `}
       style={{
-        border: "1px solid rgba(0,230,118,0.45)",
-        color: "#7dffb2",
+        border: `1px solid ${accentColor}72`,
+        color: accentColor,
+        transition: "border-color 1.5s ease, color 1.5s ease",
       }}
     >
       <span className="relative">← RETURN TO PORTAL</span>
       {/* Glow line at top */}
       <div
         className="absolute top-0 left-0 w-full h-[1px] opacity-0 group-hover:opacity-100 transition-opacity"
-        style={{ background: "linear-gradient(to right, transparent, #00e676, transparent)" }}
+        style={{ background: `linear-gradient(to right, transparent, ${accentColor}, transparent)` }}
       />
     </motion.button>
   )
