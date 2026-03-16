@@ -81,7 +81,7 @@ export default function DomainPage() {
     );
   }
 
-  const Icon = config.icon;
+  const Icon = config.icon as any;
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ background: "#020403" }}>
