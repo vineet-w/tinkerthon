@@ -102,6 +102,91 @@ const RETURN_QUOTE = "Every exit is an entry somewhere else.";
 const HERO_RETURN_QUOTE = "Follow the white rabbit.";
 const QUOTE_DURATION = 2500;
 
+function TopLeftHud({ show }: { show: boolean }) {
+  const [ping, setPing] = useState(12);
+
+  useEffect(() => {
+    if (!show) return;
+
+    const interval = setInterval(() => {
+      setPing(Math.floor(Math.random() * 18) + 8);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [show]);
+
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          className="fixed top-4 left-4 z-50"
+        >
+          <div className="relative w-[280px] px-4 py-3 overflow-hidden" style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)", boxShadow: "0 0 18px rgba(0,255,65,0.2)" }}>
+            <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(to bottom, rgba(0,255,65,0.08) 1px, transparent 1px)", backgroundSize: "100% 3px", opacity: 0.16 }} />
+
+            <motion.div
+              className="absolute right-3 top-7 w-20 h-20 rounded-full border border-green-400/30 pointer-events-none"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+              style={{ opacity: 0.3 }}
+            />
+
+            <motion.div
+              className="absolute inset-y-2 left-0 w-8 pointer-events-none"
+              style={{ background: "linear-gradient(90deg, transparent, rgba(0,255,65,0.35), transparent)", animation: "hud-sweep 3.8s linear infinite" }}
+            />
+
+            <div className="absolute top-0 left-0 w-5 h-4 border-t-2 border-l-2 border-green-400" />
+            <div className="absolute top-0 right-0 w-5 h-4 border-t-2 border-r-2 border-green-400" />
+            <div className="absolute bottom-0 left-0 w-5 h-4 border-b-2 border-l-2 border-green-400" />
+            <div className="absolute bottom-0 right-0 w-5 h-4 border-b-2 border-r-2 border-green-400" />
+
+            <div className="relative z-10 font-mono text-[11px] tracking-[0.12em] text-green-400/95">
+              <div className="flex items-center justify-between h-5">
+                <span>◈ SYS_ID: NX-26</span>
+                <span className="flex items-center gap-1.5"><span style={{ animation: "hud-live-blink 1s step-end infinite" }}>●</span>LIVE</span>
+              </div>
+
+              <div className="h-px bg-green-400/45 my-2" />
+
+              <div className="flex items-center gap-2 h-9">
+                <Image
+                  src="/images/nexus-logo.png"
+                  alt="Nexus Logo"
+                  width={36}
+                  height={36}
+                  style={{ filter: "brightness(0) invert(1) drop-shadow(0 0 6px #00ff41)" }}
+                />
+                <span className="text-green-300">AUTH NODE</span>
+              </div>
+
+              <div className="h-px bg-green-400/45 my-2" />
+
+              <div className="h-4">&gt; TUNNEL LINK ESTABLISHED</div>
+
+              <div className="h-px bg-green-400/45 my-2" />
+
+              <div className="flex items-center justify-between h-5">
+                <span>PING: {ping}ms</span>
+                <span>▮▮▮▮ SIGNAL</span>
+              </div>
+
+              <div className="mt-1 h-4 text-[12px] tracking-[0.1em] text-green-300/70">
+                <span className="text-green-400/60">:: </span>
+                ORGANIZED BY TINKERS ECS
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function TeaserPage() {
   const [showText, setShowText] = useState(false);
   const [showGlitch, setShowGlitch] = useState(false);
@@ -110,6 +195,7 @@ export default function TeaserPage() {
   const [currentQuote, setCurrentQuote] = useState("");
   const [pendingView, setPendingView] = useState<ViewType>("portals");
   const flickerRepeatDelay = 10;
+  const showNavbar = activeView !== "hero" || phase === 2;
 
   const handlePortalSelect = (sectionId: string) => {
     // Direct navigation to portals (from "ENTER THE SYSTEM") — no quote needed
@@ -197,6 +283,20 @@ export default function TeaserPage() {
           transform: translate(0, 0);
         }
       }
+      @keyframes hud-sweep {
+        0% { transform: translateX(-120%); opacity: 0; }
+        25% { opacity: 0.45; }
+        60% { opacity: 0.15; }
+        100% { transform: translateX(260%); opacity: 0; }
+      }
+      @keyframes hud-beacon {
+        0%, 100% { opacity: 0.35; box-shadow: 0 0 0 0 rgba(0,255,65,0.35); }
+        50% { opacity: 1; box-shadow: 0 0 0 6px rgba(0,255,65,0); }
+      }
+      @keyframes hud-live-blink {
+        0%, 49% { opacity: 1; }
+        50%, 100% { opacity: 0.3; }
+      }
     `;
     document.head.appendChild(style);
 
@@ -255,6 +355,8 @@ export default function TeaserPage() {
           backgroundSize: "100% 4px",
         }}
       />
+
+      <TopLeftHud show={showNavbar} />
 
       <AnimatePresence mode="wait">
         {activeView === "hero" && (
@@ -317,21 +419,6 @@ export default function TeaserPage() {
                 className="text-center max-w-3xl space-y-6 sm:space-y-12 px-2"
               >
                 <div className="relative">
-                  {/* N Logo above title */}
-                  <div className="relative mx-auto mb-4 w-[100px] h-[100px] overflow-hidden">
-                    <Image
-                      src="/images/nexus-logo.png"
-                      alt="Nexus Logo"
-                      width={100}
-                      height={100}
-                      className="mx-auto"
-                      style={{
-                        animation:
-                          "logo-glitch 5s steps(1) infinite, logo-breathe 3s ease-in-out infinite",
-                        filter: "drop-shadow(0 0 10px #00ff41)",
-                      }}
-                    />
-                  </div>
                   <motion.h1
                     animate={{
                       x: showGlitch ? [-2, 2, -1, 1, 0] : 0,
