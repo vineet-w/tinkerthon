@@ -81,7 +81,7 @@ export default function DomainPage() {
     );
   }
 
-  const Icon = config.icon;
+const Icon = config.icon as any;
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ background: "#020403" }}>
@@ -110,7 +110,7 @@ export default function DomainPage() {
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
             className="inline-flex items-center justify-center w-16 h-16 mb-6 relative">
             <div className="absolute inset-0 rounded-full" style={{ background: `${config.color}15`, border: `1px solid ${config.color}40` }} />
-            <Icon className="w-8 h-8 relative z-10" style={{ color: config.color }} />
+           <Icon className="w-8 h-8 relative z-10" style={{ color: config.color }} />
           </motion.div>
 
           <div className="flex items-center justify-center gap-3 mb-3">
