@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, ArrowLeft, Image as ImageIcon } from "lucide-react";
 import Link from "next/link";
+import PageLockGuard from "@/components/PageLockGuard";
 import "@fontsource/share-tech-mono";
 
 interface Announcement {
@@ -28,6 +29,7 @@ export default function PublicAnnouncementsPage() {
   }, []);
 
   return (
+    <PageLockGuard pageKey="announcements">
     <div className="min-h-screen relative" style={{ background: "#020403" }}>
       {/* Scanline overlay */}
       <div
@@ -46,7 +48,7 @@ export default function PublicAnnouncementsPage() {
 
       <div className="relative z-20 max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
         {/* Back link */}
-        <Link href="/" className="inline-flex items-center gap-2 text-xs tracking-widest mb-8 transition-colors group"
+        <Link href="/?view=portals" className="inline-flex items-center gap-2 text-xs tracking-widest mb-8 transition-colors group"
           style={{ color: "rgba(159,230,184,0.5)", fontFamily: "'Share Tech Mono', monospace" }}>
           <ArrowLeft className="w-4 h-4 group-hover:text-green-400 transition-colors" />
           RETURN TO MAIN TERMINAL
@@ -131,5 +133,6 @@ export default function PublicAnnouncementsPage() {
         )}
       </div>
     </div>
+    </PageLockGuard>
   );
 }

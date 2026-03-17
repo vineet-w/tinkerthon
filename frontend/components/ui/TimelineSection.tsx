@@ -10,8 +10,8 @@ interface TimelineEvent {
 }
 
 const EVENTS: TimelineEvent[] = [
-  { date: "16/03/2026", title: "Registration Starts (FCFS for Domain)" },
-  { date: "18/03/2026", title: "Registration ends" },
+  { date: "17/03/2026", title: "Registration Starts (FCFS for Domain)" },
+  { date: "19/03/2026", title: "Registration ends" },
   { date: "19/03/2026", title: "Domain Allocation Result" },
   { date: "20/03/2026", title: "PS Release + Hackathon Starts" },
   { date: "21/03/2026", title: "Project Submission (Video + Code Files)" },

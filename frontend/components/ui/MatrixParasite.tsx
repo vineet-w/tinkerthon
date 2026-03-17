@@ -360,7 +360,7 @@ function ParasiteController({
       if (isAttacking.current && !isSpinning.current) {
         // Smooth accelerating lunge — velocity lerps toward target delta
         const desired = targetPos.current.clone().sub(currentPos.current)
-        velocity.current.lerp(desired.multiplyScalar(0.35), 0.35)
+        velocity.current.lerp(desired.multiplyScalar(0.18), 0.25)
         currentPos.current.add(velocity.current)
         if (currentPos.current.distanceTo(targetPos.current) < 0.35) {
           isAttacking.current = false

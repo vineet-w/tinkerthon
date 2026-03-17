@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, FileText, Download, Table } from "lucide-react";
 import Link from "next/link";
+import PageLockGuard from "@/components/PageLockGuard";
 import "@fontsource/share-tech-mono";
 
 interface ResultEntry {
@@ -28,6 +29,7 @@ export default function PublicResultsPage() {
   }, []);
 
   return (
+    <PageLockGuard pageKey="results">
     <div className="min-h-screen relative" style={{ background: "#020403" }}>
       {/* Scanline overlay */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-10"
@@ -37,7 +39,7 @@ export default function PublicResultsPage() {
         style={{ background: "radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.6) 100%)" }} />
 
       <div className="relative z-20 max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
-        <Link href="/" className="inline-flex items-center gap-2 text-xs tracking-widest mb-8 transition-colors group"
+        <Link href="/?view=portals" className="inline-flex items-center gap-2 text-xs tracking-widest mb-8 transition-colors group"
           style={{ color: "rgba(159,230,184,0.5)", fontFamily: "'Share Tech Mono', monospace" }}>
           <ArrowLeft className="w-4 h-4 group-hover:text-green-400 transition-colors" />RETURN TO MAIN TERMINAL
         </Link>
@@ -138,5 +140,6 @@ export default function PublicResultsPage() {
         )}
       </div>
     </div>
+    </PageLockGuard>
   );
 }

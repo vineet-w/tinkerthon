@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Trash2, Download, Search, Loader2, Mail, User, Users, MessageSquare, File } from "lucide-react";
+import { Trash2, Download, Search, Loader2, User, Users, File, Github, Video } from "lucide-react";
 import "@fontsource/share-tech-mono";
 
 interface Submission {
   id: string;
-  name: string;
-  email: string;
-  teamName?: string;
-  message: string;
+  teamLeaderName: string;
+  teamName: string;
+  githubLink?: string;
+  videoLink?: string;
   fileUrl?: string;
   fileName?: string;
   createdAt: string;
@@ -38,8 +38,7 @@ export default function SubmissionsAdmin() {
   };
 
   const filtered = submissions.filter(s =>
-    s.name.toLowerCase().includes(search.toLowerCase()) ||
-    s.email.toLowerCase().includes(search.toLowerCase()) ||
+    (s.teamLeaderName || "").toLowerCase().includes(search.toLowerCase()) ||
     (s.teamName || "").toLowerCase().includes(search.toLowerCase())
   );
 
@@ -62,7 +61,7 @@ export default function SubmissionsAdmin() {
           <input value={search} onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 text-sm outline-none"
             style={{ background: "rgba(0,20,0,0.6)", border: "1px solid rgba(0,230,118,0.2)", color: "#7dffb2", fontFamily: "'Share Tech Mono', monospace" }}
-            placeholder="Search by name, email, team..." />
+            placeholder="Search by leader name or team..." />
         </div>
       </motion.div>
 
@@ -88,22 +87,29 @@ export default function SubmissionsAdmin() {
                     {/* Meta info row */}
                     <div className="flex items-center gap-3 mb-3 flex-wrap">
                       <span className="flex items-center gap-1.5 text-xs" style={{ color: "#7dffb2" }}>
-                        <User className="w-3.5 h-3.5" style={{ color: "rgba(0,230,118,0.5)" }} />{s.name}
+                        <User className="w-3.5 h-3.5" style={{ color: "rgba(0,230,118,0.5)" }} />{s.teamLeaderName}
                       </span>
                       <span className="flex items-center gap-1.5 text-[10px]" style={{ color: "rgba(159,230,184,0.55)" }}>
-                        <Mail className="w-3 h-3" />{s.email}
+                        <Users className="w-3 h-3" />{s.teamName}
                       </span>
-                      {s.teamName && (
-                        <span className="flex items-center gap-1.5 text-[10px]" style={{ color: "rgba(159,230,184,0.45)" }}>
-                          <Users className="w-3 h-3" />{s.teamName}
-                        </span>
-                      )}
                     </div>
 
-                    {/* Message */}
-                    <div className="flex items-start gap-2 mb-2">
-                      <MessageSquare className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: "rgba(0,230,118,0.3)" }} />
-                      <p className="text-xs leading-relaxed" style={{ color: "rgba(125,255,178,0.65)" }}>{s.message}</p>
+                    {/* Links */}
+                    <div className="flex items-center gap-4 mb-2 flex-wrap">
+                      {s.githubLink && (
+                        <a href={s.githubLink} target="_blank" rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 text-[10px] transition-colors hover:underline"
+                          style={{ color: "rgba(0,230,118,0.6)" }}>
+                          <Github className="w-3 h-3" />GitHub
+                        </a>
+                      )}
+                      {s.videoLink && (
+                        <a href={s.videoLink} target="_blank" rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 text-[10px] transition-colors hover:underline"
+                          style={{ color: "rgba(0,230,118,0.6)" }}>
+                          <Video className="w-3 h-3" />Video
+                        </a>
+                      )}
                     </div>
 
                     {/* File & timestamp */}

@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowLeft, Lock, Code, Brain, Link as LinkIcon, Database, Terminal, Cpu, Eye } from "lucide-react";
 import Link from "next/link";
+import PageLockGuard from "@/components/PageLockGuard";
 import "@fontsource/share-tech-mono";
 
 interface ProblemStatement {
@@ -73,7 +74,7 @@ export default function DomainPage() {
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#020403" }}>
         <div className="text-center" style={{ fontFamily: "'Share Tech Mono', monospace", color: "#ff4444" }}>
           <p className="text-xl tracking-widest mb-4">DOMAIN NOT FOUND</p>
-          <Link href="/" className="text-xs tracking-widest" style={{ color: "rgba(159,230,184,0.5)" }}>
+          <Link href="/?view=portals" className="text-xs tracking-widest" style={{ color: "rgba(159,230,184,0.5)" }}>
             ← RETURN TO MAIN TERMINAL
           </Link>
         </div>
@@ -84,6 +85,7 @@ export default function DomainPage() {
 const Icon = config.icon as any;
 
   return (
+    <PageLockGuard pageKey={`domain:${domain}`}>
     <div className="min-h-screen relative overflow-hidden" style={{ background: "#020403" }}>
       {/* Scanline overlay */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-10"
@@ -267,5 +269,6 @@ const Icon = config.icon as any;
         )}
       </div>
     </div>
+    </PageLockGuard>
   );
 }

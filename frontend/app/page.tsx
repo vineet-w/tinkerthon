@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import "@fontsource/orbitron/600.css";
@@ -11,6 +12,7 @@ import PlaceholderSection from "@/components/ui/PlaceholderSection";
 import ConstructSection from "@/components/ui/ConstructSection";
 import QuoteTransition from "@/components/ui/QuoteTransition";
 import TimelineSection from "@/components/ui/TimelineSection";
+import SponsorsSection from "@/components/ui/SponsorsSection";
 import { PORTALS } from "@/lib/portals";
 
 function MatrixRain() {
@@ -62,7 +64,7 @@ function MatrixRain() {
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      
+
       const newColumns = Math.ceil(canvas.width / fontSize);
       if (newColumns > drops.length) {
         for (let i = drops.length; i < newColumns; i++) {
@@ -100,6 +102,93 @@ const RETURN_QUOTE = "Every exit is an entry somewhere else.";
 const HERO_RETURN_QUOTE = "Follow the white rabbit.";
 const QUOTE_DURATION = 2500;
 
+function TopLeftHud({ show, activeView }: { show: boolean, activeView?: string }) {
+  const [ping, setPing] = useState(12);
+
+  useEffect(() => {
+    if (!show) return;
+
+    const interval = setInterval(() => {
+      setPing(Math.floor(Math.random() * 18) + 8);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [show]);
+
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          className="fixed top-4 left-4 z-50"
+        >
+          <div className="relative w-[280px] px-4 py-3 overflow-hidden" style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)", boxShadow: "0 0 18px rgba(0,255,65,0.2)" }}>
+            <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(to bottom, rgba(0,255,65,0.08) 1px, transparent 1px)", backgroundSize: "100% 3px", opacity: 0.16 }} />
+
+            <motion.div
+              className="absolute right-3 top-7 w-20 h-20 rounded-full border border-green-400/30 pointer-events-none"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+              style={{ opacity: 0.3 }}
+            />
+
+            <motion.div
+              className="absolute inset-y-2 left-0 w-8 pointer-events-none"
+              style={{ background: "linear-gradient(90deg, transparent, rgba(0,255,65,0.35), transparent)", animation: "hud-sweep 3.8s linear infinite" }}
+            />
+
+            <div className="absolute top-0 left-0 w-5 h-4 border-t-2 border-l-2 border-green-400" />
+            <div className="absolute top-0 right-0 w-5 h-4 border-t-2 border-r-2 border-green-400" />
+            <div className="absolute bottom-0 left-0 w-5 h-4 border-b-2 border-l-2 border-green-400" />
+            <div className="absolute bottom-0 right-0 w-5 h-4 border-b-2 border-r-2 border-green-400" />
+
+            <div className="relative z-10 font-mono text-[11px] tracking-[0.12em] text-green-400/95">
+              <div className="flex items-center justify-between h-5">
+                <span>◈ SYS_ID: NX-26</span>
+                <span className="flex items-center gap-1.5"><span style={{ animation: "hud-live-blink 1s step-end infinite" }}>●</span>LIVE</span>
+              </div>
+
+              <div className="h-px bg-green-400/45 my-2" />
+
+              <div className="flex items-center gap-2 h-9">
+                <Image
+                  src="/images/nexus-logo.png"
+                  alt="Nexus Logo"
+                  width={36}
+                  height={36}
+                  style={{ filter: "brightness(0) invert(1) drop-shadow(0 0 6px #00ff41)" }}
+                />
+                <span className="text-green-300">AUTH NODE</span>
+              </div>
+
+              <div className="h-px bg-green-400/45 my-2" />
+
+              <div className="h-4">&gt; TUNNEL LINK ESTABLISHED</div>
+
+              <div className="h-px bg-green-400/45 my-2" />
+
+              <div className="flex items-center justify-between h-5">
+                <span>PING: {ping}ms</span>
+                <span>▮▮▮▮ SIGNAL</span>
+              </div>
+
+              {(activeView === "hero" || activeView === "portals") && (
+                <div className="mt-1 h-4 text-[12px] tracking-[0.1em] text-green-300/70">
+                  <span className="text-green-400/60">:</span>
+                  ORGANIZED BY TINKERER'S ECS
+                </div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function TeaserPage() {
   const [showText, setShowText] = useState(false);
   const [showGlitch, setShowGlitch] = useState(false);
@@ -108,6 +197,18 @@ export default function TeaserPage() {
   const [currentQuote, setCurrentQuote] = useState("");
   const [pendingView, setPendingView] = useState<ViewType>("portals");
   const flickerRepeatDelay = 10;
+  const showNavbar = activeView !== "hero" || phase === 2;
+
+  // Check URL params — skip boot if returning from external page
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("view") === "portals") {
+      setPhase(2);
+      setActiveView("portals");
+      // Clean the URL
+      window.history.replaceState({}, "", "/");
+    }
+  }, []);
 
   const handlePortalSelect = (sectionId: string) => {
     // Direct navigation to portals (from "ENTER THE SYSTEM") — no quote needed
@@ -164,6 +265,51 @@ export default function TeaserPage() {
                      0 0 30px #00ff41;
         }
       }
+      @keyframes logo-breathe {
+        0%, 100% { opacity: 0.85; }
+        50% { opacity: 1.0; }
+      }
+      @keyframes logo-scanline {
+        0% { top: -10%; opacity: 0.7; }
+        80% { opacity: 0.7; }
+        100% { top: 110%; opacity: 0; }
+      }
+      @keyframes logo-glitch {
+        0%, 95%, 100% {
+          filter: drop-shadow(0 0 10px #00ff41);
+          transform: translate(0, 0);
+        }
+        95.5% {
+          filter: drop-shadow(2px 0 0 #ff0000) drop-shadow(-2px 0 0 #00ffff);
+          transform: translate(2px, 0);
+        }
+        96% {
+          filter: drop-shadow(-2px 0 0 #ff0000) drop-shadow(2px 0 0 #00ffff);
+          transform: translate(-2px, 0);
+        }
+        96.5% {
+          filter: drop-shadow(2px 0 0 #00ff00) drop-shadow(-2px 0 0 #0000ff);
+          transform: translate(1px, -1px);
+        }
+        97% {
+          filter: drop-shadow(0 0 10px #00ff41);
+          transform: translate(0, 0);
+        }
+      }
+      @keyframes hud-sweep {
+        0% { transform: translateX(-120%); opacity: 0; }
+        25% { opacity: 0.45; }
+        60% { opacity: 0.15; }
+        100% { transform: translateX(260%); opacity: 0; }
+      }
+      @keyframes hud-beacon {
+        0%, 100% { opacity: 0.35; box-shadow: 0 0 0 0 rgba(0,255,65,0.35); }
+        50% { opacity: 1; box-shadow: 0 0 0 6px rgba(0,255,65,0); }
+      }
+      @keyframes hud-live-blink {
+        0%, 49% { opacity: 1; }
+        50%, 100% { opacity: 0.3; }
+      }
     `;
     document.head.appendChild(style);
 
@@ -193,11 +339,10 @@ export default function TeaserPage() {
 
   return (
     <div
-      className={`bg-black text-green-400 font-mono relative h-screen ${
-        activeView === "timeline"
+      className={`bg-black text-green-400 font-mono relative h-screen ${(activeView === "timeline" || activeView === "sponsors")
           ? "overflow-y-auto overflow-x-hidden"
           : "overflow-hidden"
-      }`}
+        }`}
     >
       <MatrixRain />
 
@@ -223,6 +368,8 @@ export default function TeaserPage() {
           backgroundSize: "100% 4px",
         }}
       />
+
+      <TopLeftHud show={showNavbar} activeView={activeView} />
 
       <AnimatePresence mode="wait">
         {activeView === "hero" && (
@@ -285,6 +432,24 @@ export default function TeaserPage() {
                 className="text-center max-w-3xl space-y-6 sm:space-y-12 px-2"
               >
                 <div className="relative">
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1.0, ease: "easeOut" }}
+                    className="mb-4 sm:mb-6 flex flex-col items-center"
+                  >
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                      <Image src="/assets/tink.png" alt="Tinkerer's Lab" width={60} height={60} className="object-contain" />
+                      <p className="text-lg sm:text-2xl md:text-3xl tracking-wide leading-relaxed font-bold text-center" style={{ color: "rgba(0,230,118,0.6)" }}>
+                        Department of Electronics and Computer Science
+                      </p>
+                      <Image src="/assets/ves.png" alt="VES" width={60} height={60} className="object-contain" />
+                    </div>
+                    <p className="text-base sm:text-xl md:text-2xl tracking-wide leading-relaxed mt-2 sm:mt-4 text-center" style={{ color: "rgba(125,255,178,0.6)" }}>
+                      Tinkerer&apos;s Lab ECS presents
+                    </p>
+                  </motion.div>
+
                   <motion.h1
                     animate={{
                       x: showGlitch ? [-2, 2, -1, 1, 0] : 0,
@@ -314,6 +479,15 @@ export default function TeaserPage() {
                       }}
                     />
                   )}
+                  
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5, duration: 1 }}
+                    className="text-xs sm:text-sm text-white tracking-[0.2em] mt-2"
+                  >
+                    CONNECTING MINDS TO CREATE SOLUTION
+                  </motion.p>
                 </div>
 
                 <div className="space-y-8">
@@ -427,11 +601,15 @@ export default function TeaserPage() {
           <ConstructSection key="domains" onReturn={handleReturn} />
         )}
 
-        {["sponsors", "registration"].includes(activeView) && (
+        {activeView === "sponsors" && (
+          <SponsorsSection key="sponsors" onReturn={handleReturn} />
+        )}
+
+        {activeView === "registration" && (
           <PlaceholderSection
-            key={activeView}
-            title={SECTION_META[activeView]?.title || activeView.toUpperCase()}
-            subtitle={SECTION_META[activeView]?.subtitle || ""}
+            key="registration"
+            title={SECTION_META["registration"]?.title || "REGISTRATION"}
+            subtitle={SECTION_META["registration"]?.subtitle || ""}
             onReturn={handleReturn}
           />
         )}

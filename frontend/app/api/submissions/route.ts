@@ -1,18 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
 import { getSession } from "@/lib/auth";
-import { readData, writeData } from "@/lib/storage";
-
-interface Submission {
-  id: string;
-  name: string;
-  email: string;
-  teamName?: string;
-  message: string;
-  fileUrl?: string;
-  fileName?: string;
-  createdAt: string;
-}
+import { supabase } from "@/lib/supabase";
 
 export async function GET() {
   try {
@@ -21,12 +9,28 @@ export async function GET() {
       return NextResponse.json({ error: "ACCESS DENIED" }, { status: 401 });
     }
 
-    const submissions = readData<Submission>("submissions.json");
-    submissions.sort(
-      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
-    return NextResponse.json(submissions);
-  } catch {
+    const { data: submissions, error } = await supabase
+      .from("submissions")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    // Map snake_case to camelCase for the frontend
+    const mapped = submissions.map(s => ({
+      id: s.id,
+      teamLeaderName: s.team_leader_name,
+      teamName: s.team_name,
+      githubLink: s.github_link,
+      videoLink: s.video_link,
+      fileUrl: s.file_url,
+      fileName: s.file_name,
+      createdAt: s.created_at,
+    }));
+
+    return NextResponse.json(mapped);
+  } catch (err) {
+    console.error("Submissions GET error:", err);
     return NextResponse.json(
       { error: "SYSTEM ERROR: Failed to retrieve submissions" },
       { status: 500 }
@@ -37,40 +41,42 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, teamName, message, fileUrl, fileName } = body;
+    const { teamLeaderName, teamName, githubLink, videoLink, fileUrl, fileName } = body;
 
-    if (!name || !email || !message) {
+    if (!teamLeaderName || !teamName) {
       return NextResponse.json(
-        { error: "Missing required fields: name, email, message" },
+        { error: "Missing required fields: teamLeaderName, teamName" },
         { status: 400 }
       );
     }
 
-    const submissions = readData<Submission>("submissions.json");
-    const now = new Date().toISOString();
+    const { data, error } = await supabase
+      .from("submissions")
+      .insert([
+        {
+          team_leader_name: teamLeaderName,
+          team_name: teamName,
+          github_link: githubLink || null,
+          video_link: videoLink || null,
+          file_url: fileUrl || null,
+          file_name: fileName || null,
+        }
+      ])
+      .select()
+      .single();
 
-    const newSubmission: Submission = {
-      id: uuidv4(),
-      name,
-      email,
-      teamName: teamName || undefined,
-      message,
-      fileUrl: fileUrl || undefined,
-      fileName: fileName || undefined,
-      createdAt: now,
-    };
-
-    submissions.push(newSubmission);
-    writeData("submissions.json", submissions);
+    if (error) throw error;
 
     return NextResponse.json(
-      { message: "TRANSMISSION RECEIVED", id: newSubmission.id },
+      { message: "TRANSMISSION RECEIVED", id: data.id },
       { status: 201 }
     );
-  } catch {
+  } catch (err) {
+    console.error("Submissions POST error:", err);
     return NextResponse.json(
       { error: "SYSTEM ERROR: Failed to process submission" },
       { status: 500 }
     );
   }
 }
+

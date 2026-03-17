@@ -13,6 +13,7 @@ import {
   X,
   Shield,
   Zap,
+  Lock,
 } from "lucide-react";
 import "@fontsource/share-tech-mono";
 
@@ -22,6 +23,7 @@ const NAV_ITEMS = [
   { label: "PROBLEM STATEMENTS", href: "/admin/problemstatements", icon: Zap },
   { label: "RESULTS", href: "/admin/results", icon: Trophy },
   { label: "SUBMISSIONS", href: "/admin/submissions", icon: FileText },
+  { label: "PAGE LOCKS", href: "/admin/pagelocks", icon: Lock },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

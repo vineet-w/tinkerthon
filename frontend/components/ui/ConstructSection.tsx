@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react"
 import dynamic from "next/dynamic"
 import { motion, AnimatePresence } from "framer-motion"
+import Link from "next/link"
 import ReturnPortalButton from "./ReturnPortalButton"
 
 const MatrixParasite = dynamic(() => import("./MatrixParasite"), { ssr: false })
@@ -186,22 +187,35 @@ function Pill({ color, glowColor }: { color: string; glowColor: string }) {
   )
 }
 
+function getDomainSlug(label: string) {
+  if (label === "WEB_DEVELOPMENT") return "web-development"
+  if (label === "DATA_SCIENCE") return "data-science"
+  if (label === "BLOCKCHAIN") return "blockchain"
+  if (label === "AI_/_ML") return "ai-ml"
+  return ""
+}
+
 /* ─── terminal card ─── */
 function TerminalCard({ label, borderColor, accentColor }: { label: string; borderColor: string; accentColor: string }) {
+  const slug = getDomainSlug(label)
   return (
-    <motion.div
-      className="px-5 py-3 font-mono text-sm tracking-widest text-center select-none"
-      style={{
-        border: `1px solid ${borderColor}`,
-        background: "rgba(0, 10, 0, 0.75)",
-        color: borderColor,
-        fontFamily: "'Share Tech Mono', 'Orbitron', monospace",
-        boxShadow: `inset 0 0 18px ${accentColor}40`,
-        backdropFilter: "blur(4px)",
-      }}
-    >
-      [ {label} ]
-    </motion.div>
+    <Link href={`/domains/${slug}`} className="block">
+      <motion.div
+        className="px-5 py-3 font-mono text-sm tracking-widest text-center select-none cursor-pointer"
+        style={{
+          border: `1px solid ${borderColor}`,
+          background: "rgba(0, 10, 0, 0.75)",
+          color: borderColor,
+          fontFamily: "'Share Tech Mono', 'Orbitron', monospace",
+          boxShadow: `inset 0 0 18px ${accentColor}40`,
+          backdropFilter: "blur(4px)",
+        }}
+        whileHover={{ scale: 1.05, boxShadow: `inset 0 0 30px ${accentColor}80` }}
+        whileTap={{ scale: 0.95 }}
+      >
+        [ {label} ]
+      </motion.div>
+    </Link>
   )
 }
 
@@ -484,6 +498,42 @@ export default function ConstructSection({ onReturn }: ConstructSectionProps) {
             accentColor="#ff2020" unlocked={parasiteDead} theme={theme}
           />
         </div>
+
+        {/* PDF Download Button */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="mt-12 md:mt-16"
+        >
+          <a
+            href="/assets/Problem_Statements.pdf"
+            download="Tinkerthon_Problem_Statements.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-6 sm:px-8 py-3 transition-all duration-300 group"
+            style={{
+              border: `1px solid ${theme.label}`,
+              color: theme.label,
+              background: theme.hud.bg,
+              boxShadow: `inset 0 0 20px ${theme.glow}, 0 0 10px ${theme.glow}`,
+              fontFamily: "'Share Tech Mono', monospace",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = `inset 0 0 30px ${theme.glow}, 0 0 20px ${theme.glow}`
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = `inset 0 0 20px ${theme.glow}, 0 0 10px ${theme.glow}`
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-y-1 transition-transform">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span className="text-xs sm:text-sm tracking-widest leading-none mt-1">VIEW DETAILED PDF</span>
+          </a>
+        </motion.div>
       </div>
 
       {/* return button — color follows theme */}

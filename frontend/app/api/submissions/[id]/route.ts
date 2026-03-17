@@ -1,17 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
-import { readData, writeData } from "@/lib/storage";
-
-interface Submission {
-  id: string;
-  name: string;
-  email: string;
-  teamName?: string;
-  message: string;
-  fileUrl?: string;
-  fileName?: string;
-  createdAt: string;
-}
+import { supabase } from "@/lib/supabase";
 
 export async function DELETE(
   _request: NextRequest,
@@ -24,22 +13,48 @@ export async function DELETE(
     }
 
     const { id } = await params;
-    const submissions = readData<Submission>("submissions.json");
-    const filtered = submissions.filter((s) => s.id !== id);
 
-    if (filtered.length === submissions.length) {
+    // First fetch the submission to get the file_name
+    const { data: submission, error: fetchError } = await supabase
+      .from("submissions")
+      .select("file_name")
+      .eq("id", id)
+      .single();
+
+    if (fetchError || !submission) {
       return NextResponse.json(
         { error: "Submission not found" },
         { status: 404 }
       );
     }
 
-    writeData("submissions.json", filtered);
+    // If there's an associated file, delete it from the storage bucket
+    if (submission.file_name) {
+      const { error: storageError } = await supabase.storage
+        .from("uploads")
+        .remove([submission.file_name]);
+        
+      if (storageError) {
+        console.error("Failed to delete file from storage:", storageError);
+        // Continue with deleting the DB row anyway
+      }
+    }
+
+    // Delete the database row
+    const { error: deleteError } = await supabase
+      .from("submissions")
+      .delete()
+      .eq("id", id);
+
+    if (deleteError) throw deleteError;
+
     return NextResponse.json({ message: "DELETED" });
-  } catch {
+  } catch (err) {
+    console.error("Submission DELETE error:", err);
     return NextResponse.json(
       { error: "SYSTEM ERROR: Failed to delete submission" },
       { status: 500 }
     );
   }
 }
+
