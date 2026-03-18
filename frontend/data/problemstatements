@@ -4,40 +4,40 @@
     "domain": "web-development",
     "track": "junior",
     "title": "Hospital Management System",
-    "description": "Build an integrated web-based hospital management system combining patient journey tracking, preventive care, resource monitoring, and disaster preparedness.",
+    "description": "Healthcare institutions face increasing pressure to deliver eff icient\npatient care, maintain transparent treatment processes, manage\ncritical resources, and respond effectively to emergencies and\nclimate-related disasters. However, many hospitals operate with\nf ragmented digital systems where patient journey tracking,\npreventive health education, oxygen monitoring, emergency\npreparedness, and maternal health management are handled\nindependently or manually. This lack of integration can lead to\noperational ineff iciencies, delayed emergency responses, poor\npatient awareness, and resource mismanagement , especially during\nhigh-demand situations such as pandemics, heatwaves, floods, or\nmass casualty events.\nCareFlow proposes the development of a comprehensive web-based\nhospital management and patient engagement por tal that unif ies\nthese critical components into a single, structured platform. The\nsystem will provide a Smar t Patient Journey & Treatment Visualizer\nthat allows patients to understand their complete treatment\npathway—f rom appointment scheduling and diagnosis to surgery,\nrecovery, and discharge—through interactive workflow mapping and\nstep-by-step procedure explanations. A Preventive and Maternal\nHealth Monitoring module will suppor t proactive healthcare by\noffering lifestyle risk calculators, pregnancy tracking timelines,\nvaccination schedules, and child growth monitoring dashboards.\nTo strengthen operational eff iciency, the platform will include a\n\nHospital Resource & Oxygen Monitoring Dashboard that tracks real-\ntime bed occupancy, ICU availability, equipment status, and oxygen\n\ntank levels, along with graphical visualization of oxygen\nconsumption rates and threshold-based aler ts for shor tages.\nRecognizing the growing impact of climate change on public health,\nCareFlow will also incorporate an Emergency & Climate Disaster\n\nPreparedness System that enables hospitals to simulate heatwave-\nrelated patient surges, manage flood-response planning, visualize\n\npollution-related respiratory case trends, and coordinate emergency\ntriage workflows. An optional Environmental Monitoring extension\ncan fur ther track biomedical waste generation and promote\nresponsible resource management",
     "published": true,
     "createdAt": "2026-03-15T08:18:23.330Z",
-    "updatedAt": "2026-03-15T08:54:57.396Z"
+    "updatedAt": "2026-03-18T16:07:49.486Z"
   },
   {
     "id": "ps-wd-2",
     "domain": "web-development",
     "track": "junior",
     "title": "Interactive Astronomy Platform",
-    "description": "Develop an interactive web platform for learning astronomy and cosmology using simulations, visualizations, and structured educational content.",
+    "description": "SkyVerse: An Interactive Web-Based Cosmology & Astronomy\nLearning Por tal is a comprehensive educational platform\ndesigned to provide structured, immersive, and scientif ically\naccurate learning in astronomy and cosmology through\nmodern web technologies. The platform integrates an\ninteractive 3D solar system simulation with zoom and orbit\nanimations, a scientif ic constellation explorer, a 360° star\nmap, detailed planetary science modules, curated\nastronomical image archives f rom recognized space\nagencies, structured educational video content , guided sky\nobservation tools, and Ear th climate visualization modules.\nUsers can explore planetary motion, study stellar proper ties,\nanalyze real space mission imagery, observe celestial events,\nand understand atmospheric processes such as the\ngreenhouse effect through interactive visual models. By\ncombining animated simulations, multimedia learning\nresources, and practical observation guidance into a unif ied\ndigital ecosystem, SkyVerse enhances scientif ic literacy,\npromotes hands-on astronomy learning, and strengthens\ninterdisciplinary understanding of planetary systems.",
     "published": true,
     "createdAt": "2026-03-17T23:00:00.000Z",
-    "updatedAt": "2026-03-17T23:00:00.000Z"
+    "updatedAt": "2026-03-18T16:07:27.604Z"
   },
   {
     "id": "ps-ds-1",
     "domain": "data-science",
     "track": "junior",
     "title": "Misinformation & Deepfake AI Monitor",
-    "description": "Create an AI system to detect and analyze misinformation and deepfakes across text, images, and videos with explainable insights and real-time monitoring.",
+    "description": "The rapid spread of misinformation and AI-generated\ndeepfake content across digital platforms is eroding public\ntrust , influencing elections, manipulating f inancial markets,\nand amplifying social unrest . With the rise of generative AI\ntools, fabricated text , images, and videos are becoming\nincreasingly diff icult to distinguish f rom authentic content ,\nmaking automated detection systems a critical necessity.\nDevelop a scalable AI-powered detection system capable of\nanalyzing text , images, and shor t video inputs to determine\nauthenticity using multimodal machine learning models.\nThe system should generate conf idence scores along with\nexplainable reasoning for each prediction, enabling\ntransparency and trust in model decisions. It should also be\ncapable of monitoring real- time social media or streaming\ndata to identify misinformation trends and simulate the\nspread of manipulated content under different intervention\npolicies.\nIt is necessary to incorporate interactive data visualizations\nthat clearly represent misinformation patterns, model\nconf idence levels, detection accuracy metrics, and\npropagation networks. Visual dashboards should help users\ninterpret insights effectively and understand the impact of\nAI-driven interventions.\nThe system must enhance digital trust , promote\nresponsible information consumption, and demonstrate\nhow advanced data science techniques can be leveraged to\ncounter AI-generated threats.",
     "published": true,
     "createdAt": "2026-03-17T23:00:00.000Z",
-    "updatedAt": "2026-03-17T23:00:00.000Z"
+    "updatedAt": "2026-03-18T16:08:19.838Z"
   },
   {
     "id": "ps-ds-2",
     "domain": "data-science",
     "track": "junior",
     "title": "IoT Infrastructure Predictive Analytics",
-    "description": "Design a predictive analytics platform using IoT data to detect infrastructure failures, simulate risks, and optimize maintenance strategies.",
+    "description": "Critical inf rastructure systems such as power grids,\ntranspor tation networks, and industrial plants are\nincreasingly vulnerable to unexpected failures due to aging\ncomponents, overload conditions, and environmental stress.\nDelayed detection of anomalies can result in cascading\nfailures, large-scale service disruptions, and signif icant\neconomic losses.\n\nDevelop a predictive analytics platform that processes real-\ntime sensor and IoT time-series data to detect early warning\n\nsignals of system failure. The solution should model\n\ninterconnected inf rastructure components using graph-\nbased learning techniques, simulate stress conditions,\n\npredict cascading failures, and recommend preventive\nmaintenance strategies based on dynamic risk scoring.\nIt is mandatory to include comprehensive data visualization\ncomponents such as real- time dashboards, anomaly trend\ngraphs, failure heatmaps, network graphs, and risk\ndistribution char ts. These visualizations should enable\nstakeholders to interpret system health, identify\nvulnerabilities, and make informed decisions quickly.\nThe platform must demonstrate how data-driven predictive\nmaintenance and advanced analytics can minimize\ndowntime, optimize operational eff iciency, and improve\nlong- term inf rastructure resilience.",
     "published": true,
     "createdAt": "2026-03-17T23:00:00.000Z",
-    "updatedAt": "2026-03-17T23:00:00.000Z"
+    "updatedAt": "2026-03-18T16:08:33.237Z"
   },
   {
     "id": "ps-ai-1",

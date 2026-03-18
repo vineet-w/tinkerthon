@@ -305,3 +305,50 @@
   background: rgba(0, 255, 0, 0.25);
   color: #00ff9c;
 }
+
+/* ─── Problem Statements Section Animations ─── */
+
+.ps-scan-line {
+  animation: ps-scan 0.8s ease-out forwards;
+}
+
+@keyframes ps-scan {
+  0% { top: 0; opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.ps-blink-cursor {
+  animation: ps-cursor-blink 0.6s step-end infinite;
+}
+
+@keyframes ps-cursor-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.ps-glitch-text {
+  animation: ps-glitch 3s infinite;
+}
+
+@keyframes ps-glitch {
+  0%, 92%, 100% {
+    text-shadow: 0 0 8px rgba(0,255,65,0.4);
+    transform: translate(0, 0);
+  }
+  93% {
+    text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+    transform: translate(2px, 0);
+  }
+  94% {
+    text-shadow: -2px 0 #ff0000, 2px 0 #00ffff;
+    transform: translate(-2px, 0);
+  }
+  95% {
+    text-shadow: 1px 0 #00ff00, -1px 0 #0000ff;
+    transform: translate(1px, -1px);
+  }
+  96% {
+    text-shadow: 0 0 8px rgba(0,255,65,0.4);
+    transform: translate(0, 0);
+  }
+}

@@ -339,7 +339,7 @@ export default function TeaserPage() {
 
   return (
     <div
-      className={`bg-black text-green-400 font-mono relative h-screen ${(activeView === "timeline" || activeView === "sponsors" || activeView === "portals")
+      className={`bg-black text-green-400 font-mono relative h-screen ${(activeView === "timeline" || activeView === "sponsors" || activeView === "portals" || activeView === "domains")
           ? "overflow-y-auto overflow-x-hidden"
           : "overflow-hidden"
         }`}
