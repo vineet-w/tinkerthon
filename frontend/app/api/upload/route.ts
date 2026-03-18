@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
-import fs from "fs";
+import { createClient } from "@supabase/supabase-js";
+
+// Use the credentials provided in .env.example/environment
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://wdgwpsjtkdhvypfyzqfh.supabase.co";
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndkZ3dwc2p0a2RodnlwZnl6cWZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3Mzg0NDcsImV4cCI6MjA4OTMxNDQ0N30.7GlCkktC-GPxKnBOjJw_cIdkWpcUtsKIFEAQvg0Ck-Q";
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,20 +24,30 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Save locally to public/uploads
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    if (!fs.existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
+    // Upload to Supabase Storage 'uploads' bucket
+    const { data: uploadData, error } = await supabase.storage
+      .from("uploads")
+      .upload(filename, buffer, {
+        contentType: file.type || "application/octet-stream",
+        upsert: false,
+      });
+
+    if (error) {
+      console.error("Supabase upload error:", error);
+      return NextResponse.json({ 
+        error: "Storage upload failed", 
+        details: error.message 
+      }, { status: 500 });
     }
 
-    const filepath = path.join(uploadDir, filename);
-    await writeFile(filepath, buffer);
-
-    const publicUrl = `/uploads/${filename}`;
+    // Get the public URL for the uploaded file
+    const { data: publicUrlData } = supabase.storage
+      .from("uploads")
+      .getPublicUrl(filename);
 
     return NextResponse.json(
       {
-        url: publicUrl,
+        url: publicUrlData.publicUrl,
         filename: file.name,
         size: file.size,
       },
@@ -47,4 +61,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
