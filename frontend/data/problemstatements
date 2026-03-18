@@ -1,0 +1,82 @@
+[
+  {
+    "id": "ps-wd-1",
+    "domain": "web-development",
+    "track": "junior",
+    "title": "Hospital Management System",
+    "description": "Build an integrated web-based hospital management system combining patient journey tracking, preventive care, resource monitoring, and disaster preparedness.",
+    "published": true,
+    "createdAt": "2026-03-15T08:18:23.330Z",
+    "updatedAt": "2026-03-15T08:54:57.396Z"
+  },
+  {
+    "id": "ps-wd-2",
+    "domain": "web-development",
+    "track": "junior",
+    "title": "Interactive Astronomy Platform",
+    "description": "Develop an interactive web platform for learning astronomy and cosmology using simulations, visualizations, and structured educational content.",
+    "published": true,
+    "createdAt": "2026-03-17T23:00:00.000Z",
+    "updatedAt": "2026-03-17T23:00:00.000Z"
+  },
+  {
+    "id": "ps-ds-1",
+    "domain": "data-science",
+    "track": "junior",
+    "title": "Misinformation & Deepfake AI Monitor",
+    "description": "Create an AI system to detect and analyze misinformation and deepfakes across text, images, and videos with explainable insights and real-time monitoring.",
+    "published": true,
+    "createdAt": "2026-03-17T23:00:00.000Z",
+    "updatedAt": "2026-03-17T23:00:00.000Z"
+  },
+  {
+    "id": "ps-ds-2",
+    "domain": "data-science",
+    "track": "junior",
+    "title": "IoT Infrastructure Predictive Analytics",
+    "description": "Design a predictive analytics platform using IoT data to detect infrastructure failures, simulate risks, and optimize maintenance strategies.",
+    "published": true,
+    "createdAt": "2026-03-17T23:00:00.000Z",
+    "updatedAt": "2026-03-17T23:00:00.000Z"
+  },
+  {
+    "id": "ps-ai-1",
+    "domain": "ai-ml",
+    "track": "senior",
+    "title": "Real-time Edge Box Counting",
+    "description": "Build a real-time box counting algorithm using video input that works accurately under varying real-world conditions on edge devices like Raspberry Pi.",
+    "published": true,
+    "createdAt": "2026-03-17T23:00:00.000Z",
+    "updatedAt": "2026-03-17T23:00:00.000Z"
+  },
+  {
+    "id": "ps-ai-2",
+    "domain": "ai-ml",
+    "track": "senior",
+    "title": "Box Counting Full System Integration",
+    "description": "Develop a complete system integrating box counting with a web/mobile app for session tracking, video recording, data storage, and report generation.",
+    "published": true,
+    "createdAt": "2026-03-17T23:00:00.000Z",
+    "updatedAt": "2026-03-17T23:00:00.000Z"
+  },
+  {
+    "id": "ps-bc-1",
+    "domain": "blockchain",
+    "track": "senior",
+    "title": "On-chain Microfinance Impact Score",
+    "description": "Create a blockchain-based microfinance system that uses alternative behavioral data to generate an 'Impact Score' for inclusive credit assessment.",
+    "published": true,
+    "createdAt": "2026-03-17T23:00:00.000Z",
+    "updatedAt": "2026-03-17T23:00:00.000Z"
+  },
+  {
+    "id": "ps-bc-2",
+    "domain": "blockchain",
+    "track": "senior",
+    "title": "Transparent Procurement & Audit Trails",
+    "description": "Design a blockchain-powered procurement system ensuring transparent fund usage, milestone-based payments, and tamper-proof audit trails.",
+    "published": true,
+    "createdAt": "2026-03-17T23:00:00.000Z",
+    "updatedAt": "2026-03-17T23:00:00.000Z"
+  }
+]

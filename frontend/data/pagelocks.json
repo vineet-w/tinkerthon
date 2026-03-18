@@ -1,0 +1,34 @@
+[
+  {
+    "id": "79cfc6eb-a2e3-44c5-a39d-7994672170a0",
+    "pageKey": "submit",
+    "locked": false,
+    "lockedAt": "2026-03-17T05:54:24.893Z",
+    "updatedAt": "2026-03-18T13:10:17.309Z",
+    "lockedBy": "admin"
+  },
+  {
+    "id": "07de5d3a-2346-4506-8d8e-1c415123fa72",
+    "pageKey": "announcements",
+    "locked": false,
+    "lockedAt": "2026-03-17T06:03:20.629Z",
+    "updatedAt": "2026-03-18T13:09:25.903Z",
+    "lockedBy": "admin"
+  },
+  {
+    "id": "67f63738-9bdf-4a04-a4e0-83fd9f5524b6",
+    "pageKey": "domain:data-science",
+    "locked": false,
+    "lockedAt": "2026-03-17T06:03:37.893Z",
+    "updatedAt": "2026-03-17T06:03:39.001Z",
+    "lockedBy": "admin"
+  },
+  {
+    "id": "c3529667-5d7d-47cb-8ffc-19b67d0f0831",
+    "pageKey": "results",
+    "locked": false,
+    "lockedAt": "2026-03-17T17:15:22.636Z",
+    "updatedAt": "2026-03-17T17:16:13.190Z",
+    "lockedBy": "admin"
+  }
+]
