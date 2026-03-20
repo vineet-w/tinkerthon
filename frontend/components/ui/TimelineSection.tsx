@@ -10,15 +10,24 @@ interface TimelineEvent {
 }
 
 const EVENTS: TimelineEvent[] = [
-  { date: "17/03/2026", title: "Registration Starts (FCFS for Domain)" },
-  { date: "19/03/2026", title: "Registration ends" },
-  { date: "19/03/2026", title: "Domain Allocation Result" },
-  { date: "20/03/2026", title: "PS Release + Hackathon Starts" },
-  { date: "21/03/2026", title: "Project Submission (Video + Code Files)" },
-  { date: "22/03/2026", title: "Top Teams Shortlisting" },
-  { date: "23/03/2026", title: "Final Presentation (in college) & Results" },
-];
+  { date: "Tue, 17/03/2026", title: "Registration Starts (FCFS for Domain)" },
+  { date: "Thu, 19/03/2026", title: "Registration Ends" },
+  { date: "Thu, 19/03/2026", title: "Domain Allocation Result" },
+  { date: "Fri, 20/03/2026", title: "PS Release + Hackathon Starts" },
 
+  { 
+    date: "Fri, 20/03/2026", 
+    title: "Mentoring Round (Online - 2 AM)" 
+  },
+  { 
+    date: "Sat, 21/03/2026", 
+    title: "Mentoring Round (Online - 12 PM)" 
+  },
+
+  { date: "Sat, 21/03/2026", title: "Final Project Submission (PPT + Video + Code Files)" },
+  { date: "Sun, 22/03/2026", title: "Result Declaration of Top Teams Shortlisted" },
+  { date: "Mon, 23/03/2026", title: "Final Presentation (in college) & Results" },
+];
 interface TimelineSectionProps {
   onReturn: () => void
 }
