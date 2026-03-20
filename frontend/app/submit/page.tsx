@@ -336,7 +336,7 @@ function SubmissionForm({ onBack }: { onBack: () => void }) {
         setError("Only PDF, PPT, or PPTX files are accepted");
         return;
       }
-      if (selected.size > 25 * 1024 * 1024) {
+      if (selected.size > 26 * 1024 * 1024) {
         setError("File size must be under 25 MB");
         return;
       }
@@ -361,16 +361,25 @@ function SubmissionForm({ onBack }: { onBack: () => void }) {
       let fileName = "";
 
       // Upload file first if present
-      if (file) {
-        const fd = new FormData();
-        fd.append("file", file);
-        const uploadRes = await fetch("/api/upload", { method: "POST", body: fd });
-        if (uploadRes.ok) {
-          const uploadData = await uploadRes.json();
-          fileUrl = uploadData.url;
-          fileName = uploadData.filename;
-        }
-      }
+if (file) {
+  const fd = new FormData();   // ✅ define it here
+  fd.append("file", file);
+
+  const uploadRes = await fetch("/api/upload", {
+    method: "POST",
+    body: fd,
+  });
+
+  if (!uploadRes.ok) {
+    const err = await uploadRes.json();
+    throw new Error(err.error || "File upload failed");
+  }
+
+  const uploadData = await uploadRes.json();
+  fileUrl = uploadData.url;
+  fileName = uploadData.filename;
+}
+
 
       const res = await fetch("/api/submissions", {
         method: "POST",

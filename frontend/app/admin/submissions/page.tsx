@@ -29,7 +29,11 @@ export default function SubmissionsAdmin() {
     } catch { /* ignore */ } finally { setLoading(false); }
   };
 
-  useEffect(() => { fetchSubmissions(); }, []);
+useEffect(() => {
+  fetchSubmissions();
+  const interval = setInterval(fetchSubmissions, 5000);
+  return () => clearInterval(interval);
+}, []);
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this submission?")) return;
