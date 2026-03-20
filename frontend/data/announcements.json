@@ -1,18 +1,11 @@
 [
   {
     "id": "a203d8e0-2047-40ee-80eb-59f09d6a4344",
-    "title": "Tinkerthon 2026 Kickoff",
-    "description": "Welcome to Tinkerthon 2026! Registration opens on March 16th.",
-    "date": "2026-03-15",
+    "title": "PS Allotment Released!",
+    "description": "Result for both Tracks has been released!!!",
+    "date": "2026-03-20",
     "createdAt": "2026-03-15T05:43:14.689Z",
-    "updatedAt": "2026-03-15T05:43:14.689Z"
-  },
-  {
-    "id": "8723722a-33ec-48b8-a3b9-97c3624601ea",
-    "title": "Test",
-    "description": "Delete later",
-    "date": "2026-03-15",
-    "createdAt": "2026-03-15T06:09:12.323Z",
-    "updatedAt": "2026-03-15T06:09:12.323Z"
+    "updatedAt": "2026-03-20T05:41:35.440Z",
+    "imageUrl": ""
   }
 ]
