@@ -13,7 +13,9 @@ const EVENTS: TimelineEvent[] = [
   { date: "Tue, 17/03/2026", title: "Registration Starts (FCFS for Domain)" },
   { date: "Thu, 19/03/2026", title: "Registration Ends" },
   { date: "Thu, 19/03/2026", title: "Domain Allocation Result" },
-  { date: "Fri, 20/03/2026", title: "PS Release + Hackathon Starts" },
+  { date: "Fri, 20/03/2026", title: "PS Release + Hackathon Starts" }, 
+  { date: "Fri, 20/03/2026", title: "PPT submission 11pm " },
+
 
   { 
     date: "Fri, 20/03/2026", 
