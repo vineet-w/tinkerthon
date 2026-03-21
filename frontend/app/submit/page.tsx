@@ -20,7 +20,12 @@ import Image from "next/image";
 import Link from "next/link";
 import PageLockGuard from "@/components/PageLockGuard";
 import "@fontsource/share-tech-mono";
+import { createClient } from "@supabase/supabase-js";
 
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 const UNSTOP_LINK = "https://unstop.com/o/i2YbERj?utm_medium=Share&utm_source=WhatsApp";
 
 export default function PublicSubmitPage() {
@@ -362,37 +367,37 @@ function SubmissionForm({ onBack }: { onBack: () => void }) {
 
       // Upload file first if present
 if (file) {
-  const fd = new FormData();   // ✅ define it here
-  fd.append("file", file);
+  const filename = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
 
-  const uploadRes = await fetch("/api/upload", {
-    method: "POST",
-    body: fd,
-  });
+  const { data, error: uploadError } = await supabase.storage
+    .from("uploads")
+    .upload(filename, file);
 
-  if (!uploadRes.ok) {
-    const err = await uploadRes.json();
-    throw new Error(err.error || "File upload failed");
+  if (uploadError) {
+    throw new Error(uploadError.message);
   }
 
-  const uploadData = await uploadRes.json();
-  fileUrl = uploadData.url;
-  fileName = uploadData.filename;
+  const { data: publicUrlData } = supabase.storage
+    .from("uploads")
+    .getPublicUrl(filename);
+
+  fileUrl = publicUrlData.publicUrl;
+  fileName = file.name;
 }
 
 
       const res = await fetch("/api/submissions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          teamLeaderName: form.teamLeaderName,
-          teamName: form.teamName,
-          githubLink: form.githubLink || undefined,
-          videoLink: form.videoLink || undefined,
-          fileUrl: fileUrl || undefined,
-          fileName: fileName || undefined,
-        }),
-      });
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    teamLeaderName: form.teamLeaderName,
+    teamName: form.teamName,
+    githubLink: form.githubLink || undefined,
+    videoLink: form.videoLink || undefined,
+    fileUrl: fileUrl || undefined,
+    fileName: fileName || undefined,
+  }),
+});
 
       if (!res.ok) {
         const data = await res.json();
