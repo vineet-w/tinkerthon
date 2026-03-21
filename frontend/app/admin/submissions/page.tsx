@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Trash2, Download, Search, Loader2, User, Users, File, Github, Video } from "lucide-react";
 import "@fontsource/share-tech-mono";
-
+import * as XLSX from "xlsx";
 interface Submission {
   id: string;
   teamLeaderName: string;
@@ -20,7 +20,53 @@ export default function SubmissionsAdmin() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+const exportToExcel = () => {
+  const data = filtered.map((s) => ({
+    "Team Leader": s.teamLeaderName,
+    "Team Name": s.teamName,
+    "GitHub": s.githubLink || "",
+    "Video": s.videoLink || "",
+    "File Name": s.fileName || "",
+    "File URL": s.fileUrl || "",
+    "Submitted At": new Date(s.createdAt).toLocaleString()
+  }));
 
+  const worksheet = XLSX.utils.json_to_sheet(data);
+
+  // ✅ Add clickable hyperlinks
+  data.forEach((row, index) => {
+    const rowIndex = index + 2; // row 1 = header
+
+    if (row.GitHub) {
+      worksheet[`C${rowIndex}`] = {
+        t: "s",
+        v: "GitHub",
+        l: { Target: row.GitHub }
+      };
+    }
+
+    if (row.Video) {
+      worksheet[`D${rowIndex}`] = {
+        t: "s",
+        v: "Video",
+        l: { Target: row.Video }
+      };
+    }
+
+    if (row["File URL"]) {
+      worksheet[`F${rowIndex}`] = {
+        t: "s",
+        v: "File",
+        l: { Target: row["File URL"] }
+      };
+    }
+  });
+
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Submissions");
+
+  XLSX.writeFile(workbook, "submissions.xlsx");
+};
   const fetchSubmissions = async () => {
     try {
       const res = await fetch("/api/submissions");
@@ -40,7 +86,7 @@ useEffect(() => {
     await fetch(`/api/submissions/${id}`, { method: "DELETE" });
     await fetchSubmissions();
   };
-
+ 
   const filtered = submissions.filter(s =>
     (s.teamLeaderName || "").toLowerCase().includes(search.toLowerCase()) ||
     (s.teamName || "").toLowerCase().includes(search.toLowerCase())
@@ -67,6 +113,18 @@ useEffect(() => {
             style={{ background: "rgba(0,20,0,0.6)", border: "1px solid rgba(0,230,118,0.2)", color: "#7dffb2", fontFamily: "'Share Tech Mono', monospace" }}
             placeholder="Search by leader name or team..." />
         </div>
+
+        <button
+          onClick={exportToExcel}
+          className="px-4 py-2 text-xs tracking-wider border"
+          style={{
+            border: "1px solid rgba(0,230,118,0.3)",
+            color: "#7dffb2",
+            background: "rgba(0,20,0,0.6)"
+          }}
+        >
+          EXPORT TO EXCEL
+        </button>
       </motion.div>
 
       <div className="h-px w-full mb-6" style={{ background: "linear-gradient(to right, #00e676, transparent)" }} />
